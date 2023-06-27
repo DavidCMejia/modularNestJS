@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import * as Joi from 'joi';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -15,6 +17,11 @@ const API_KEY = '12345634';
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+      validationSchema: Joi.object({
+        API_KEY: Joi.number().required(),
+        DATABASE_NAME: Joi.string().required(),
+        // DATABASE_PORT: Joi.number().required(),
+      }),
     }),
   ],
   controllers: [AppController],
