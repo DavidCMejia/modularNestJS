@@ -21,6 +21,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
+  app.enableCors(); // Sirve para habilitar el cors cuando se trabaja con angular
   await app.listen(3000);
 }
 bootstrap();
