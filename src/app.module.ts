@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import * as Joi from 'joi';
-import { Client } from 'pg';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,19 +9,6 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 
 const API_KEY = '12345634';
-const client = new Client({
-  user: 'root',
-  host: 'localhost',
-  database: 'my_db',
-  password: '123456',
-  port: 5438,
-});
-
-client.connect();
-client.query('SELECT * FROM tasks', (err, res) => {
-  console.error(err);
-  console.log(res.rows);
-});
 
 @Module({
   imports: [
