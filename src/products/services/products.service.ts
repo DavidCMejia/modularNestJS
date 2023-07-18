@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './../entities/product.entity';
 import { CreateProductDto, UpdateProductDto } from './../dtos/products.dtos';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
@@ -26,40 +26,34 @@ export class ProductsService {
     return this.productRepo.find();
   }
 
-  findOne(id) {
-    const product = this.productRepo.findOne(id);
+  async findOne(id: number) {
+    const options: FindOneOptions<Product> = { where: { id } };
+    const product = await this.productRepo.findOne(options);
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);
     }
     return product;
   }
 
-  // create(data: CreateProductDto) {
-  //   this.counterId = this.counterId + 1;
-  //   const newProduct = {
-  //     id: this.counterId,
-  //     ...data,
-  //   };
-  //   this.products.push(newProduct);
-  //   return newProduct;
-  // }
+  create(data: CreateProductDto) {
+    const newProduct = this.productRepo.create(data);
 
-  // update(id: number, changes: UpdateProductDto) {
-  //   const product = this.findOne(id);
-  //   const index = this.products.findIndex((item) => item.id === id);
-  //   this.products[index] = {
-  //     ...product,
-  //     ...changes,
-  //   };
-  //   return this.products[index];
-  // }
+    return this.productRepo.save(newProduct);
+  }
 
-  // remove(id: number) {
-  //   const index = this.products.findIndex((item) => item.id === id);
-  //   if (index === -1) {
-  //     throw new NotFoundException(`Product #${id} not found`);
-  //   }
-  //   this.products.splice(index, 1);
-  //   return true;
-  // }
+  async update(id: number, changes: UpdateProductDto) {
+    const options: FindOneOptions<Product> = { where: { id } };
+    const product = await this.productRepo.findOne(options);
+    this.productRepo.merge(product, changes);
+    return this.productRepo.save(product);
+  }
+
+  async remove(id: number) {
+    const options: FindOneOptions<Product> = { where: { id } };
+    const product = await this.productRepo.findOne(options);
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return this.productRepo.delete(id);
+  }
 }
