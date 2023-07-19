@@ -11,7 +11,7 @@ export class UsersService {
   constructor(
     private productsService: ProductsService,
     private configService: ConfigService,
-    @Inject('PG') private clientPg: Client,
+    // @Inject('PG') private clientPg: Client,
   ) {}
   private counterId = 1;
   private users: User[] = [
@@ -79,13 +79,16 @@ export class UsersService {
 
   getTasks() {
     // 👈 new method
-    return new Promise((resolve, reject) => {
-      this.clientPg.query('SELECT * FROM tasks', (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res.rows);
-      });
-    });
+    return {
+      message: 'Aca van las tareas',
+    };
+    // return new Promise((resolve, reject) => {
+    //   this.clientPg.query('SELECT * FROM tasks', (err, res) => {
+    //     if (err) {
+    //       reject(err);
+    //     }
+    //     resolve(res.rows);
+    //   });
+    // });
   }
 }
