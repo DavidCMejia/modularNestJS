@@ -24,5 +24,5 @@ export class User extends BasicEntity {
 
   @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
   @JoinColumn()
-  customer?: Customer;
+  customer: Customer;
 }

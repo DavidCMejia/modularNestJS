@@ -1,9 +1,8 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { ConfigService } from '@nestjs/config';
-import { Client } from 'pg';
 import { ProductsService } from '../../products/services/products.service';
 import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,7 +14,6 @@ export class UsersService {
     private configService: ConfigService, // @Inject('PG') private clientPg: Client,
     @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
-  private counterId = 1;
 
   findAll() {
     const apiKey = this.configService.get('API_KEY');

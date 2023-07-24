@@ -20,5 +20,5 @@ export class Customer extends BasicEntity {
   phone: string;
 
   @OneToOne(() => User, (user) => user.customer, { nullable: true })
-  user?: User;
+  user: User;
 }
