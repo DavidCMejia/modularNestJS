@@ -1,7 +1,7 @@
-import { User } from 'src/users/entities/user.entity';
 import { Product } from './product.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../entity/User';
 @Entity()
 export class Order {
   @ApiProperty()
