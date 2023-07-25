@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToOne } from 'typeorm';
+import { Entity, Column, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './user.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -7,7 +7,7 @@ import { BasicEntity } from '../../database/basic.entity';
 @Entity()
 export class Customer extends BasicEntity {
   @ApiProperty()
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255 })
