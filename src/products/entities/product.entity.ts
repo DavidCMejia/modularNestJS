@@ -3,12 +3,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { BasicEntity } from '../../database/basic.entity';
+import { Brand } from './brand.entity';
 
 @Entity()
-export class Product {
+export class Product extends BasicEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,9 +31,6 @@ export class Product {
   @Column({ type: 'varchar', length: 255 })
   image: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  @ManyToOne(() => Brand, (brand) => brand.products)
+  brand: Brand;
 }

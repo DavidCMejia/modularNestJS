@@ -10,17 +10,6 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
-  // private counterId = 1;
-  // private products: Product[] = [
-  //   {
-  //     id: 1,
-  //     name: 'Producto 1',
-  //     description: 'lorem lorem',
-  //     price: 10000,
-  //     stock: 300,
-  //     image: 'https://i.imgur.com/U4iGx1j.jpeg',
-  //   },
-  // ];
 
   findAll() {
     return this.productRepo.find();

@@ -5,11 +5,11 @@ export class BasicEntity {
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createAt?: Date;
+  createAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updateAt?: Date;
+  updateAt: Date;
 }
