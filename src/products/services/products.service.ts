@@ -4,15 +4,18 @@ import { Product } from './../entities/product.entity';
 import { CreateProductDto, UpdateProductDto } from './../dtos/products.dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
+import { BrandsService } from './brands.service';
+import { Brand } from '../entities/brand.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    private brandService: BrandsService,
   ) {}
 
   findAll() {
-    return this.productRepo.find();
+    return this.productRepo.find({ relations: ['brand'] });
   }
 
   async findOne(id: number) {
@@ -24,9 +27,12 @@ export class ProductsService {
     return product;
   }
 
-  create(data: CreateProductDto) {
+  async create(data: CreateProductDto) {
     const newProduct = this.productRepo.create(data);
-
+    if (data.brandId) {
+      const brand = await this.brandService.findOne(data.brandId);
+      newProduct.brand = brand;
+    }
     return this.productRepo.save(newProduct);
   }
 
