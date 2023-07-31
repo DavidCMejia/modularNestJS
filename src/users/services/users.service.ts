@@ -21,12 +21,15 @@ export class UsersService {
     const apiKey = this.configService.get('API_KEY');
     const db = this.configService.get('DATABASE_NAME');
     console.log(apiKey, db);
-    return this.userRepo.find({ relations: ['customer'] });
+    return this.userRepo.find();
   }
 
   async findOne(id: number) {
     const options: FindOneOptions<User> = { where: { id } };
-    const user = await this.userRepo.findOne(options);
+    const user = await this.userRepo.findOne({
+      relations: ['customer'],
+      ...options,
+    });
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }

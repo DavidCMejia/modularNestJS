@@ -17,12 +17,17 @@ export class ProductsService {
   ) {}
 
   findAll() {
-    return this.productRepo.find({ relations: ['brand', 'categories'] });
+    return this.productRepo.find();
+    // .find({ relations: ['brand', 'categories'] })
+    // se recomienda que las relaciones se carguen en findOne en vez de all porque puede hacer consultas muy pesadas
   }
 
   async findOne(id: number) {
     const options: FindOneOptions<Product> = { where: { id } };
-    const product = await this.productRepo.findOne(options);
+    const product = await this.productRepo.findOne({
+      relations: ['brand', 'categories'],
+      ...options,
+    });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);
     }
